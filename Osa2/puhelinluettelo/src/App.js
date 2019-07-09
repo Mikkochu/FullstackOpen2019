@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-
-const Numbers = ({ listToShow }) => {
-  const allPersons = () =>
-    listToShow.map((item, index) => (
-      <p key={item.name}>
-        {item.name} {item.number}
-      </p>
-    ));
-
-  return <div>{allPersons()}</div>;
-};
+import Numbers from "./components/Numbers";
+import Filters from "./components/Filters";
+import Forms from "./components/Forms";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -20,26 +12,9 @@ const App = () => {
   ]);
   const [newName, setNewName] = useState(""); // nimi inputin arvo
   const [newNumber, setNewNumber] = useState(""); //numero inputin arvo
-  const [filterNames, setFilterNames] = useState(""); //filter inputin arvo
-  const [showAll, setShowAll] = useState(true); //boolean, true jos filter inputissa tekstiä ja false jos ei
+  const [filterInput, setFilterInput] = useState(""); //filter inputin arvo
 
-  const filteredObj = () =>
-    persons.filter(person =>
-      person.name.toLowerCase().includes(filterNames.toLowerCase())
-    );
-
-  //console.log("FilteredLista", filteredObj());
-
-  const showList = () => {
-    let lista;
-    showAll ? (lista = persons) : (lista = filteredObj());
-
-    return lista;
-  };
-
-  //console.log("show", showList());
-
-  const handleChange = event => {
+  const handleChangeName = event => {
     let inputFieldValue = event.target.value;
     //console.log(inputFieldValue);
     setNewName(inputFieldValue);
@@ -54,62 +29,40 @@ const App = () => {
   const handleChangeFilter = event => {
     let inputFieldValue = event.target.value;
     //console.log("Filter", inputFieldValue);
-
-    if (inputFieldValue === "") {
-      setShowAll(true);
-    } else {
-      setShowAll(false);
-    }
-
-    setFilterNames(inputFieldValue);
+    setFilterInput(inputFieldValue);
   };
 
-  //console.log("NamesToShow", namesToShow());
-  console.log("ShowAll", showAll);
-
-  const addName = event => {
+  const AddName = event => {
     event.preventDefault();
+    const personObj = { name: newName, number: newNumber };
 
-    //Lisää nimen ja numeron objektiin
-    const newPersonObject = {
-      name: newName,
-      number: newNumber
-    };
-
-    //Testaa onko newName listassa, palauttaa boolean
-    let etsiNimi = newName =>
-      persons.map(person => person.name).includes(newName);
-
-    if (etsiNimi(newName)) {
+    const checkList = persons.map(person => person.name);
+    if (checkList.includes(newName)) {
       alert(`${newName} is already added to the phonebook`);
     } else {
-      setPersons(persons.concat(newPersonObject));
-      setNewName("");
-      setNewNumber("");
+      setPersons(persons.concat(personObj));
     }
+    setNewName("");
+    setNewNumber("");
   };
-
-  //console.log("Persons", persons);
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addName}>
-        <div>
-          filter shown with{" "}
-          <input value={filterNames} onChange={handleChangeFilter} />
-          <h2>add a new</h2>
-          name: <input value={newName} onChange={handleChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleChangeNumber} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers: </h2>
-      <Numbers listToShow={showList()} />
+      <Filters
+        filterInput={filterInput}
+        handleChangeFilter={handleChangeFilter}
+      />
+      <h2>Add a new</h2>
+      <Forms
+        AddName={AddName}
+        newName={newName}
+        newNumber={newNumber}
+        handleChangeName={handleChangeName}
+        handleChangeNumber={handleChangeNumber}
+      />
+      <h2>Numbers:</h2>
+      <Numbers persons={persons} filterInput={filterInput} />
     </div>
   );
 };

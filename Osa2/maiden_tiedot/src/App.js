@@ -16,8 +16,6 @@ const Display = ({ countries, filterValue, handleButtonClick }) => {
     country.name.toLowerCase().includes(filterValue.toLowerCase())
   );
 
-  //console.log("Count", filteredCountries.length);
-
   if (countries.length === filteredCountries.length) return null;
   else if (filteredCountries.length === 1) {
     let singleCountryObject = filteredCountries[0];
@@ -34,7 +32,7 @@ const Display = ({ countries, filterValue, handleButtonClick }) => {
 };
 
 const ManyCountries = ({ filteredCountries, handleButtonClick }) => {
-  return filteredCountries.map((country, index) => (
+  return filteredCountries.map(country => (
     <div key={country.name}>
       {country.name}
       <button onClick={() => handleButtonClick(country.name)}>show</button>
@@ -43,9 +41,7 @@ const ManyCountries = ({ filteredCountries, handleButtonClick }) => {
 };
 
 const SingleCountry = ({ singleCountryObject }) => {
-  //console.log("kielet", singleCountryObject.languages);
   let languages = singleCountryObject.languages;
-
   return (
     <div>
       <h1>{singleCountryObject.name}</h1>
@@ -56,6 +52,7 @@ const SingleCountry = ({ singleCountryObject }) => {
         <Languages languages={languages} />
       </ul>
       <img src={singleCountryObject.flag} alt="flag" width="150" height="100" />
+      <Weather singleCountryObject={singleCountryObject} />
     </div>
   );
 };
@@ -64,6 +61,40 @@ const Languages = ({ languages }) => {
   return languages.map(language => (
     <li key={language.name}>{language.name}</li>
   ));
+};
+
+const Weather = ({ singleCountryObject }) => {
+  const [weather, setWeather] = useState("");
+
+  let capitalCity = singleCountryObject.capital;
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://api.apixu.com/v1/current.json?key=9a84b983a1064f58b73141027191107&q=${capitalCity}`
+      )
+      .then(response => {
+        const apiData = response.data;
+        const weatherObj = {
+          temp: apiData.current.temp_c,
+          windDirection: apiData.current.wind_dir,
+          windSpeed: apiData.current.wind_kph,
+          weatherImage: apiData.current.condition.icon
+        };
+        setWeather(weatherObj);
+      });
+  }, [capitalCity]);
+
+  return (
+    <div>
+      <h3>Weather in {capitalCity}</h3>
+      <b>Temperature:</b> {weather.temp} Celcius
+      <br />
+      <img src={weather.weatherImage} alt="weatherImage" />
+      <br />
+      <b> Wind:</b> {weather.windSpeed} kph direction {weather.windDirection}
+    </div>
+  );
 };
 
 function App() {
@@ -76,13 +107,11 @@ function App() {
   };
 
   const handleButtonClick = name => {
-    console.log("name", name);
     setfilterValue(name);
   };
 
   useEffect(() => {
     axios.get("https://restcountries.eu/rest/v2/all").then(response => {
-      //console.log("response", response);
       setCountries(response.data);
     });
   }, []);

@@ -9,7 +9,7 @@ const Filter = ({ filterValue, handleFilter }) => {
   );
 };
 
-const Display = ({ countries, filterValue }) => {
+const Display = ({ countries, filterValue, handleButtonClick }) => {
   if (countries.length === 0) return null;
 
   let filteredCountries = countries.filter(country =>
@@ -22,15 +22,23 @@ const Display = ({ countries, filterValue }) => {
   else if (filteredCountries.length === 1) {
     let singleCountryObject = filteredCountries[0];
     return <SingleCountry singleCountryObject={singleCountryObject} />;
-  } else if (filteredCountries.length > 10)
+  } else if (filteredCountries.length > 1 && filteredCountries.length <= 10)
+    return (
+      <ManyCountries
+        filteredCountries={filteredCountries}
+        handleButtonClick={handleButtonClick}
+      />
+    );
+  else if (filteredCountries.length > 10)
     return <p>Too many matches, specify another filter</p>;
-  else if (filteredCountries.length > 1 && filteredCountries.length <= 10)
-    return <ManyCountries filteredCountries={filteredCountries} />;
 };
 
-const ManyCountries = ({ filteredCountries }) => {
-  return filteredCountries.map(country => (
-    <p key={country.name}>{country.name}</p>
+const ManyCountries = ({ filteredCountries, handleButtonClick }) => {
+  return filteredCountries.map((country, index) => (
+    <div key={country.name}>
+      {country.name}
+      <button onClick={() => handleButtonClick(country.name)}>show</button>
+    </div>
   ));
 };
 
@@ -60,11 +68,16 @@ const Languages = ({ languages }) => {
 
 function App() {
   const [countries, setCountries] = useState("");
-  const [filterValue, setfilterValue] = useState("Finland");
+  const [filterValue, setfilterValue] = useState("");
 
   const handleFilter = event => {
     let inputValue = event.target.value;
     setfilterValue(inputValue);
+  };
+
+  const handleButtonClick = name => {
+    console.log("name", name);
+    setfilterValue(name);
   };
 
   useEffect(() => {
@@ -77,7 +90,11 @@ function App() {
   return (
     <>
       <Filter filterValue={filterValue} handleFilter={handleFilter} />
-      <Display countries={countries} filterValue={filterValue} />
+      <Display
+        countries={countries}
+        filterValue={filterValue}
+        handleButtonClick={handleButtonClick}
+      />
     </>
   );
 }

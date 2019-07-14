@@ -11,6 +11,10 @@ const createPhonebook = personObj => {
   return request.then(response => response.data);
 };
 
+const removePerson = id => {
+  return axios.delete(`${url}/${id}`);
+};
+
 const updatePhonebook = (id, personObj) => {
   const request = axios.put(`${url}/${id}`, personObj);
   return request.then(response => response.data);
@@ -19,5 +23,6 @@ const updatePhonebook = (id, personObj) => {
 export default {
   getData,
   createPhonebook,
-  updatePhonebook
+  updatePhonebook,
+  removePerson
 };

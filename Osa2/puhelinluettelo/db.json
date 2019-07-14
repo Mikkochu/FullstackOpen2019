@@ -21,19 +21,14 @@
       "id": 4
     },
     {
-      "name": "Mikko K",
-      "number": "050-123456",
+      "name": "Mikko",
+      "number": "050 123456",
       "id": 5
     },
     {
-      "name": "Laura",
-      "number": "040- 456789",
+      "name": "Hugo",
+      "number": "555 6667",
       "id": 6
-    },
-    {
-      "name": "Höpö",
-      "number": "123457",
-      "id": 7
     }
   ]
 }

@@ -34,6 +34,21 @@ const App = () => {
     setFilterInput(inputFieldValue);
   };
 
+  const handleRemovePerson = id => {
+    const personToRemove = persons.find(person => person.id === id);
+
+    let message = `Do you really want to delete ${personToRemove.name}`;
+    let result = window.confirm(message); //Palauttaa boolean
+
+    if (result) {
+      //Jos totta niin poistetaan henkilo
+      Phonenumbers.removePerson(personToRemove.id).then(() => {
+        //SetPersoniin asetetaan filtteröity lista ilman poistettua henkilöä
+        setPersons(persons.filter(person => person.id !== personToRemove.id));
+      });
+    }
+  };
+
   const AddName = event => {
     event.preventDefault();
     const personObj = { name: newName, number: newNumber };
@@ -66,7 +81,11 @@ const App = () => {
         handleChangeNumber={handleChangeNumber}
       />
       <h2>Numbers:</h2>
-      <Numbers persons={persons} filterInput={filterInput} />
+      <Numbers
+        persons={persons}
+        filterInput={filterInput}
+        handleRemovePerson={handleRemovePerson}
+      />
     </div>
   );
 };

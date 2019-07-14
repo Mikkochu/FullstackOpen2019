@@ -21,14 +21,9 @@
       "id": 4
     },
     {
-      "name": "Mikko",
-      "number": "050 123456",
+      "name": "mikko",
+      "number": "4444",
       "id": 5
-    },
-    {
-      "name": "Hugo",
-      "number": "555 6667",
-      "id": 6
     }
   ]
 }

@@ -53,9 +53,30 @@ const App = () => {
     event.preventDefault();
     const personObj = { name: newName, number: newNumber };
 
+    const personToUpdate = persons.find(person => person.name === newName);
+
     const checkList = persons.map(person => person.name);
+    //Tarkastaa onko newName persons listassa
     if (checkList.includes(newName)) {
-      alert(`${newName} is already added to the phonebook`);
+      let message = `${newName} is already added to the phonebook, replace the old number with a new one?`;
+      let result = window.confirm(message);
+      // Jos käyttäjä klikkaa ok niin päivitetään serverillä olevaa listaa personsObj ja asetetaan Appissa olevaan persons-tilamuuttujaan
+      // vanha lista ja updatephonebook-metodin palauttama uusi henkilö
+      if (result) {
+        Phonenumbers.updatePhonebook(personToUpdate.id, personObj).then(
+          updatedPerson => {
+            //updatedPerson on sama kuin personObj. Sama nimi ja id, uusi numero.
+
+            setPersons(
+              persons.map(
+                person =>
+                  person.id !== personToUpdate.id ? person : updatedPerson
+                //Jos loopattu person.id on eri kuin päivitetyn henkilön id niin vanhan listan person uuteen listaan. Jos id on sama niin lisätään updated person, jolla on nyt uusi numero.
+              )
+            );
+          }
+        );
+      }
     } else {
       Phonenumbers.createPhonebook(personObj).then(person => {
         setPersons(persons.concat(person));

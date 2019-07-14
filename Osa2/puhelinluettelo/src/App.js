@@ -42,7 +42,9 @@ const App = () => {
     if (checkList.includes(newName)) {
       alert(`${newName} is already added to the phonebook`);
     } else {
-      setPersons(persons.concat(personObj));
+      axios.post("http://localhost:3001/persons", personObj).then(response => {
+        setPersons(persons.concat(response.data));
+      });
     }
     setNewName("");
     setNewNumber("");

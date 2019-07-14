@@ -19,6 +19,16 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
+    },
+    {
+      "name": "Mikko K",
+      "number": "050-123456",
+      "id": 5
+    },
+    {
+      "name": "Laura",
+      "number": "040- 456789",
+      "id": 6
     }
   ]
 }

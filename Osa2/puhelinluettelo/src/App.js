@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Numbers from "./components/Numbers";
 import Filters from "./components/Filters";
 import Forms from "./components/Forms";
-import axios from "axios";
+import Phonenumbers from "./services/Phonenumbers";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,8 +11,8 @@ const App = () => {
   const [filterInput, setFilterInput] = useState(""); //filter inputin arvo
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then(response => {
-      setPersons(response.data);
+    Phonenumbers.getData().then(person => {
+      setPersons(person);
     });
   }, []);
 
@@ -42,8 +42,8 @@ const App = () => {
     if (checkList.includes(newName)) {
       alert(`${newName} is already added to the phonebook`);
     } else {
-      axios.post("http://localhost:3001/persons", personObj).then(response => {
-        setPersons(persons.concat(response.data));
+      Phonenumbers.createPhonebook(personObj).then(person => {
+        setPersons(persons.concat(person));
       });
     }
     setNewName("");

@@ -4,11 +4,20 @@ import Filters from "./components/Filters";
 import Forms from "./components/Forms";
 import Phonenumbers from "./services/Phonenumbers";
 
+const Notification = ({ msg }) => {
+  if (msg === null) {
+    return null;
+  }
+
+  return <div className="notification">{msg}</div>;
+};
+
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState(""); // nimi inputin arvo
   const [newNumber, setNewNumber] = useState(""); //numero inputin arvo
   const [filterInput, setFilterInput] = useState(""); //filter inputin arvo
+  const [message, setMessage] = useState(null); //viesti onnistuneesta operaatiosta
 
   useEffect(() => {
     Phonenumbers.getData().then(person => {
@@ -46,6 +55,10 @@ const App = () => {
         //SetPersoniin asetetaan filtteröity lista ilman poistettua henkilöä
         setPersons(persons.filter(person => person.id !== personToRemove.id));
       });
+      setMessage(`${personToRemove.name} removed`);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
   };
 
@@ -66,20 +79,26 @@ const App = () => {
         Phonenumbers.updatePhonebook(personToUpdate.id, personObj).then(
           updatedPerson => {
             //updatedPerson on sama kuin personObj. Sama nimi ja id, uusi numero.
-
             setPersons(
-              persons.map(
-                person =>
-                  person.id !== personToUpdate.id ? person : updatedPerson
-                //Jos loopattu person.id on eri kuin päivitetyn henkilön id niin vanhan listan person uuteen listaan. Jos id on sama niin lisätään updated person, jolla on nyt uusi numero.
+              persons.map(person =>
+                person.id !== personToUpdate.id ? person : updatedPerson
               )
             );
           }
+          //Jos loopattu person.id on eri kuin päivitetyn henkilön id niin vanhan listan person uuteen listaan. Jos id on sama niin lisätään updated person, jolla on nyt uusi numero.
         );
+        setMessage(`Number for ${personToUpdate.name} is updated`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       }
     } else {
       Phonenumbers.createPhonebook(personObj).then(person => {
         setPersons(persons.concat(person));
+        setMessage(`Added ${newName}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
     }
     setNewName("");
@@ -89,6 +108,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification msg={message} />
+      <br />
       <Filters
         filterInput={filterInput}
         handleChangeFilter={handleChangeFilter}

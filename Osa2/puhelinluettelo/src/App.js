@@ -2,15 +2,8 @@ import React, { useState, useEffect } from "react";
 import Numbers from "./components/Numbers";
 import Filters from "./components/Filters";
 import Forms from "./components/Forms";
+import Notifications from "./components/Notifications";
 import Phonenumbers from "./services/Phonenumbers";
-
-const Notification = ({ msg }) => {
-  if (msg === null) {
-    return null;
-  }
-
-  return <div className="notification">{msg}</div>;
-};
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -76,17 +69,31 @@ const App = () => {
       // Jos käyttäjä klikkaa ok niin päivitetään serverillä olevaa listaa personsObj ja asetetaan Appissa olevaan persons-tilamuuttujaan
       // vanha lista ja updatephonebook-metodin palauttama uusi henkilö
       if (result) {
-        Phonenumbers.updatePhonebook(personToUpdate.id, personObj).then(
-          updatedPerson => {
-            //updatedPerson on sama kuin personObj. Sama nimi ja id, uusi numero.
-            setPersons(
-              persons.map(person =>
-                person.id !== personToUpdate.id ? person : updatedPerson
-              )
+        Phonenumbers.updatePhonebook(personToUpdate.id, personObj)
+          .then(
+            updatedPerson => {
+              //updatedPerson on sama kuin personObj. Sama nimi ja id, uusi numero.
+              setPersons(
+                persons.map(person =>
+                  person.id !== personToUpdate.id ? person : updatedPerson
+                )
+              );
+            }
+            //Jos loopattu person.id on eri kuin päivitetyn henkilön id niin vanhan listan person uuteen listaan. Jos id on sama niin lisätään updated person, jolla on nyt uusi numero.
+          )
+          .catch(error => {
+            setMessage(
+              `Error: Information about ${
+                personToUpdate.name
+              } has already been removed from the server`
             );
-          }
-          //Jos loopattu person.id on eri kuin päivitetyn henkilön id niin vanhan listan person uuteen listaan. Jos id on sama niin lisätään updated person, jolla on nyt uusi numero.
-        );
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+            setPersons(
+              persons.filter(person => person.id !== personToUpdate.id)
+            );
+          });
         setMessage(`Number for ${personToUpdate.name} is updated`);
         setTimeout(() => {
           setMessage(null);
@@ -108,7 +115,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification msg={message} />
+      <Notifications msg={message} />
       <br />
       <Filters
         filterInput={filterInput}

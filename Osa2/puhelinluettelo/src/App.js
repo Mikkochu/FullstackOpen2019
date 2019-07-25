@@ -100,13 +100,20 @@ const App = () => {
         }, 5000);
       }
     } else {
-      Phonenumbers.createPhonebook(personObj).then(person => {
-        setPersons(persons.concat(person));
-        setMessage(`Added ${newName}`);
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
-      });
+      Phonenumbers.createPhonebook(personObj)
+        .then(person => {
+          setPersons(persons.concat(person));
+          setMessage(`Added ${newName}`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        })
+        .catch(error => {
+          setMessage(`${error.response.data.error} `);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        });
     }
     setNewName("");
     setNewNumber("");

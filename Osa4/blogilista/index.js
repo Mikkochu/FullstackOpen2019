@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const config = require("./utils/config");
 
+//MORGAN
 morgan.token("data", request => {
   return JSON.stringify(request.body);
 });

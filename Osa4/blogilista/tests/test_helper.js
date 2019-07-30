@@ -1,3 +1,5 @@
+//Auttaa testien kanssa dummydatalla ja palauttaa kaikki blogit Json-formaatissa
+
 const Blog = require("../models/blog");
 
 const initialBlogs = [

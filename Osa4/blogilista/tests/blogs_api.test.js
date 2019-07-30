@@ -35,9 +35,9 @@ test("Identifiable key for id is id", async () => {
 
 test("An new blog is added to the database ", async () => {
   const newTestBlog = {
-    title: "Testi blogi",
-    author: "Testi blogin kirjoittaja",
-    url: "http://www.blog.com",
+    title: "Uunituore blogi",
+    author: "Uunituoreen blogin kirjoittaja",
+    url: "http://www.newblog.com",
     likes: 100
   };
 
@@ -53,7 +53,25 @@ test("An new blog is added to the database ", async () => {
   expect(allBlogs.length).toBe(initialBlogCount + 1);
 
   const title = allBlogs.map(blog => blog.title);
-  expect(title).toContain("Testi blogi");
+  expect(title).toContain("Uunituore blogi");
+});
+
+test("If blog.likes has no value, then blog.likes is zero", async () => {
+  const blogWithoutLikes = {
+    title: "Testi blogi ilman likeja",
+    author: "Testibloggaaja",
+    url: "http://www.unlikedblog.com"
+  };
+
+  const response = await api
+    .post("/api/blogs")
+    .send(blogWithoutLikes)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const likesCount = response.body.likes;
+
+  expect(likesCount).toBe(0);
 });
 
 afterAll(() => {

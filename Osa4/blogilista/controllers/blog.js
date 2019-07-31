@@ -17,7 +17,13 @@ blogRouter.post("/", async (request, response, next) => {
 
   try {
     const savedBlog = await blog.save();
-    response.status(201).json(savedBlog.toJSON());
+    console.log("savedBlogTitle", savedBlog.title);
+
+    if (savedBlog.title === undefined && savedBlog.url === undefined) {
+      response.status(400).json(savedBlog.toJSON()); //404 jos title ja url ei ole olemassa
+    } else {
+      response.status(201).json(savedBlog.toJSON());
+    }
   } catch (exception) {
     next(exception);
   }

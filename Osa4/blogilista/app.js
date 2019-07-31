@@ -14,7 +14,7 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms :data")
 );
 
-//console.log("connecting to ", config.MONGODB_URI);
+console.log("connecting to ", config.MONGODB_URI);
 
 mongoose
   .connect(config.MONGODB_URI, {

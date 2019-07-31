@@ -44,8 +44,7 @@ test("An new blog is added to the database ", async () => {
   await api
     .post("/api/blogs")
     .send(newTestBlog)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
+    .expect(201);
 
   const allBlogs = await helper.allBlogsInDB();
   const initialBlogCount = helper.initialBlogs.length;
@@ -58,7 +57,7 @@ test("An new blog is added to the database ", async () => {
 
 test("If blog.likes has no value, then blog.likes is zero", async () => {
   const blogWithoutLikes = {
-    title: "Testi blogi ilman likeja",
+    title: "Testiblogi ilman likeja",
     author: "Testibloggaaja",
     url: "http://www.unlikedblog.com"
   };
@@ -66,12 +65,29 @@ test("If blog.likes has no value, then blog.likes is zero", async () => {
   const response = await api
     .post("/api/blogs")
     .send(blogWithoutLikes)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
+    .expect(201);
 
   const likesCount = response.body.likes;
 
   expect(likesCount).toBe(0);
+});
+
+test("Blog without title and url returns 400 bad request", async () => {
+  const unknownBlog = {
+    author: "Nimettömän blogin kirjoittaja"
+  };
+
+  const response = await api
+    .post("/api/blogs")
+    .send(unknownBlog)
+    .expect(400)
+    .expect("Content-Type", /application\/json/);
+
+  const titleUnknowBlog = response.body.title;
+  const urlUnknowBlog = response.body.url;
+
+  expect(titleUnknowBlog).toBeFalsy();
+  expect(urlUnknowBlog).toBeFalsy();
 });
 
 afterAll(() => {

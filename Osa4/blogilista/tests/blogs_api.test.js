@@ -90,6 +90,21 @@ test("Blog without title and url returns 400 bad request", async () => {
   expect(urlUnknowBlog).toBeFalsy();
 });
 
+test("Remove blog", async () => {
+  const blogsBeforeDelete = await helper.allBlogsInDB();
+  const blogToDelete = await blogsBeforeDelete[0];
+
+  await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+
+  const blogsAfterDelete = await helper.allBlogsInDB();
+  console.log("blogsAfterDelete", blogsAfterDelete.length);
+
+  expectedBlogCount = helper.initialBlogs.length - 1;
+  receivedBlogCount = blogsAfterDelete.length;
+
+  expect(receivedBlogCount).toBe(expectedBlogCount);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });

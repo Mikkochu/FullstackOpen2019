@@ -105,6 +105,22 @@ test("Remove blog", async () => {
   expect(receivedBlogCount).toBe(expectedBlogCount);
 });
 
+test("Update blog", async () => {
+  const allBlogs = await helper.allBlogsInDB();
+  const testBlog = allBlogs[0];
+
+  blogToUpdate = { ...testBlog, likes: 10 };
+
+  const updatedBlog = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(blogToUpdate)
+    .expect(202);
+
+  const UpdateBlogLikes = updatedBlog.body.likes;
+
+  expect(UpdateBlogLikes).toBe(10);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });

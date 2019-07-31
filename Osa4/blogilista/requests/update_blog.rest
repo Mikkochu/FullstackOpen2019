@@ -1,9 +1,9 @@
-POST http://localhost:3003/api/blogs/
+PUT http://localhost:3003/api/blogs/5d41bb6184df0c01f0233d5b
 Content-Type: application/json
 
 {
   "title": "Päivitetty blogi",
   "author": "Mikko",
   "url": "mikko.com",
-  "likes": "100"
+  "likes": "99"
 }

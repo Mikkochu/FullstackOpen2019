@@ -11,6 +11,25 @@ usersRouter.post("/", async (request, response, next) => {
   try {
     const body = request.body;
 
+    if (body.username === undefined || body.password === undefined) {
+      return response
+        .status(400)
+        .json({ error: "username and password are required" });
+    }
+
+    if (body.username.length < 3 || body.password.length < 3) {
+      return response
+        .status(400)
+        .json({
+          error: "username and password must be at least 3 characters long"
+        });
+    }
+
+    const sameUsernames = await User.find({ username: body.username });
+    if (sameUsernames.length > 0) {
+      return response.status(400).json({ error: "username must be unique" });
+    }
+
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(body.password, saltRounds);
 

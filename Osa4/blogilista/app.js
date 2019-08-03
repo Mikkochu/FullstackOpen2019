@@ -8,6 +8,8 @@ const loginRouter = require("./controllers/login");
 const config = require("./utils/config");
 const mongoose = require("mongoose");
 const app = express();
+const logger = require("./utils/logger");
+const middleware = require("./utils/middleware");
 
 morgan.token("data", request => {
   return JSON.stringify(request.body);
@@ -37,5 +39,8 @@ app.use(cors());
 app.use("/api/blogs", blogRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
+
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 module.exports = app;

@@ -1,6 +1,7 @@
 //Auttaa testien kanssa dummydatalla ja palauttaa kaikki blogit Json-formaatissa
 
 const Blog = require("../models/blog");
+const User = require("../models/user");
 
 const initialBlogs = [
   {
@@ -22,7 +23,13 @@ const allBlogsInDB = async () => {
   return allBlogs.map(blog => blog.toJSON());
 };
 
+const allUsersInDB = async () => {
+  const users = await User.find({});
+  return users.map(user => user.toJSON());
+};
+
 module.exports = {
   initialBlogs,
-  allBlogsInDB
+  allBlogsInDB,
+  allUsersInDB
 };

@@ -1,0 +1,19 @@
+
+
+note over selain:
+Käyttäjä kirjoittaa muistiinpanon ja painaa submit.
+Muistiinpano on JSON-muodossa, joka sisältää viestin sisällön ja aikaleiman
+end note
+
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over palvelin:
+Palvelin vastaa selaimen kyselyyn statuskoodilla 201 created.
+end note
+
+palvelin-->selain: Palvelin lähettää selaimelle JSON-datatiedoston
+
+
+note over selain:
+Selain renderöi muistiinpanot näytölle tapatumankäsittelijän avulla
+end note

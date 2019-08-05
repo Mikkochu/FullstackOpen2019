@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+
+{
+  "title": "Mikon blogi",
+  "author": "Mikko",
+  "url": "mikko.com",
+  "likes": "1000",
+  "userId": "5d481888818e0f3ee8181b58"
+}

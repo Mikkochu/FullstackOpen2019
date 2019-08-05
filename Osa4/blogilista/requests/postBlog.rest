@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "title": "Hugon blogi",
   "author": "Hugo",
-  "url": "mikko.com",
+  "url": "hugo.com",
   "likes": "100",
-  "userId": "5d4815814d3c1c24888a5639"
+  "userId": "5d481a9ce55ba532fc93a51b"
 }

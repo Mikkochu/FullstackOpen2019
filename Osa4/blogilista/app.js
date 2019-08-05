@@ -35,6 +35,8 @@ mongoose
 
 app.use(bodyParser.json());
 app.use(cors());
+app.use(middleware.tokenExtractor);
+app.use(middleware.requestLogger);
 
 app.use("/api/blogs", blogRouter);
 app.use("/api/users", usersRouter);

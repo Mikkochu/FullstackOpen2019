@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1pa2tvIiwiaWQiOiI1ZDQ4MjEyN2JkM2Q2NTM0ZDhkZDgzOTUiLCJpYXQiOjE1NjUwMDkyNjZ9.fhe4QjUBNgB2PJrP3CqL140pMdXf4dMGIGJXQOOgACc
 
 {
-  "title": "Mikon blogi",
+  "title": "Mikon toinen blogi",
   "author": "Mikko",
-  "url": "mikko.com",
-  "likes": "1000",
-  "userId": "5d481888818e0f3ee8181b58"
+  "url": "mikko2.com",
+  "likes": "500"
 }

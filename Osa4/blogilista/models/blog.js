@@ -6,7 +6,13 @@ const blogSchema = mongoose.Schema({
   title: { type: String },
   author: { type: String },
   url: { type: String },
-  likes: { type: Number, default: 0 } //jos likeja ei ole niin likejen määrä on nolla
+  likes: { type: Number, default: 0 },
+  user: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ]
 });
 
 blogSchema.set("toJSON", {

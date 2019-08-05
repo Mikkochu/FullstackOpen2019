@@ -2,10 +2,15 @@
 
 const blogRouter = require("express").Router();
 const Blog = require("../models/blog");
+const User = require("../models/user");
 
 blogRouter.get("/", async (request, response) => {
   try {
-    const allBlogs = await Blog.find({});
+    const allBlogs = await Blog.find({}).populate("user", {
+      username: 1,
+      name: 1,
+      id: 1
+    });
     response.json(allBlogs.map(blog => blog.toJSON()));
   } catch (exception) {
     next(exception);
@@ -13,11 +18,26 @@ blogRouter.get("/", async (request, response) => {
 });
 
 blogRouter.post("/", async (request, response, next) => {
-  const blog = new Blog(request.body);
+  const body = request.body;
+
+  //const user = await User.findById(body.userId);
+  const users = await User.find({});
+  const user = users[0];
+  console.log("user", user);
+
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+    user: user.id
+  });
 
   try {
     const savedBlog = await blog.save();
-    console.log("savedBlogTitle", savedBlog.title);
+    console.log("savedBlogTitle", savedBlog);
+    user.blogs = user.blogs.concat(savedBlog._id);
+    await user.save();
 
     if (savedBlog.title === undefined && savedBlog.url === undefined) {
       response.status(400).json(savedBlog.toJSON()); //404 jos title ja url ei ole olemassa

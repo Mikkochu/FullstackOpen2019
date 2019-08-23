@@ -1,5 +1,14 @@
-import React from "react";
-const Blog = ({ blog, fullBlogInfo, toggleFullBlogInfo }) => {
+import React, { useState } from "react";
+
+const Blog = ({ blog }) => {
+  const [fullBlog, setFullBlog] = useState(false);
+
+  const fullBlogInfo = { display: fullBlog ? "" : "none" };
+
+  const toggleFullBlogInfo = () => {
+    setFullBlog(!fullBlog);
+  };
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -18,7 +27,8 @@ const Blog = ({ blog, fullBlogInfo, toggleFullBlogInfo }) => {
         <p>
           {blog.likes} likes <button>like</button>
         </p>
-        <p>added by {blog.user.name}</p>
+        <p>added by </p>
+        <button>remove</button>
       </div>
     </div>
   );

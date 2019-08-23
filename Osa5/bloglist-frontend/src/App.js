@@ -18,7 +18,6 @@ function App() {
 
   useEffect(() => {
     blogService.getAll().then(response => {
-      setBlogs(response);
       handleLikesChange(response);
     });
   }, []);
@@ -33,7 +32,7 @@ function App() {
   }, []);
 
   const handleLikesChange = newBlogs => {
-    setBlogs(newBlogs);
+    setBlogs(newBlogs.sort((a, b) => b.likes - a.likes));
   };
 
   const handleLogin = async event => {
@@ -126,7 +125,8 @@ function App() {
           blog={blog}
           blogService={blogService}
           blogs={blogs}
-          setBlogs={setBlogs}
+          setNewBlogs={handleLikesChange}
+          user={user}
         />
       ))}
     </div>

@@ -3,6 +3,7 @@ import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -120,6 +121,43 @@ function App() {
     </div>
   );
 
+  const createBlogs = () => (
+    <Togglable buttonLabel="A new blog">
+      <br />
+      <h2>Create a new blog</h2>
+      <form onSubmit={handleCreate}>
+        <div>
+          title {"  "}
+          <input
+            type="text"
+            value={title}
+            name="Title"
+            onChange={({ target }) => setTitle(target.value)}
+          />
+        </div>
+        <div>
+          author {"  "}
+          <input
+            type="text"
+            value={author}
+            name="Author"
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+        </div>
+        <div>
+          url {"  "}
+          <input
+            type="text"
+            value={url}
+            name="Url"
+            onChange={({ target }) => setUrl(target.value)}
+          />
+        </div>
+        <button type="submit">Create</button>
+      </form>
+    </Togglable>
+  );
+
   if (user === null) {
     return (
       <div>
@@ -131,39 +169,6 @@ function App() {
     );
   }
 
-  const createBlogs = () => (
-    <form onSubmit={handleCreate}>
-      <div>
-        title {"  "}
-        <input
-          type="text"
-          value={title}
-          name="Title"
-          onChange={({ target }) => setTitle(target.value)}
-        />
-      </div>
-      <div>
-        author {"  "}
-        <input
-          type="text"
-          value={author}
-          name="Author"
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
-        url {"  "}
-        <input
-          type="text"
-          value={url}
-          name="Url"
-          onChange={({ target }) => setUrl(target.value)}
-        />
-      </div>
-      <button type="submit">Create</button>
-    </form>
-  );
-
   return (
     <div>
       <h2>Blogs</h2>
@@ -172,7 +177,7 @@ function App() {
       <br />
       {user.name} logged in {"  "}
       <button onClick={handleLogout}> logout</button>
-      <h2>Create a new blog</h2>
+      <p />
       {createBlogs()}
       {showBlogs()}
     </div>

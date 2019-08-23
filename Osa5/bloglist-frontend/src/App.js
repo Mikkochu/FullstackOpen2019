@@ -15,6 +15,7 @@ function App() {
   const [url, setUrl] = useState("");
   const [notification, setNotification] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [fullBlog, setFullBlog] = useState(false);
 
   useEffect(() => {
     blogService.getAll().then(response => {
@@ -116,7 +117,12 @@ function App() {
     <div>
       <br />
       {blogs.map(blog => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          fullBlogInfo={fullBlogInfo}
+          toggleFullBlogInfo={toggleFullBlogInfo}
+        />
       ))}
     </div>
   );
@@ -157,6 +163,12 @@ function App() {
       </form>
     </Togglable>
   );
+
+  const fullBlogInfo = { display: fullBlog ? "" : "none" };
+
+  const toggleFullBlogInfo = () => {
+    setFullBlog(!fullBlog);
+  };
 
   if (user === null) {
     return (

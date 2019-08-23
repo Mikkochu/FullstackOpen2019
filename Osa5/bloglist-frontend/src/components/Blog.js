@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, blogService, blogs, setBlogs }) => {
   const [fullBlog, setFullBlog] = useState(false);
 
   const fullBlogInfo = { display: fullBlog ? "" : "none" };
 
   const toggleFullBlogInfo = () => {
     setFullBlog(!fullBlog);
+  };
+
+  const handleLike = () => {
+    blog.likes++;
+    blogService.update(blog.id, blog);
+    setBlogs(blogs.map(OldBlog => (OldBlog.id === blog.id ? blog : OldBlog)));
   };
 
   const blogStyle = {
@@ -25,7 +31,7 @@ const Blog = ({ blog }) => {
       <div style={fullBlogInfo}>
         <p>{blog.url}</p>
         <p>
-          {blog.likes} likes <button>like</button>
+          {blog.likes} likes <button onClick={() => handleLike()}>like</button>
         </p>
         <p>added by </p>
         <button>remove</button>

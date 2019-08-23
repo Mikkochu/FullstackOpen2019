@@ -19,6 +19,7 @@ function App() {
   useEffect(() => {
     blogService.getAll().then(response => {
       setBlogs(response);
+      handleLikesChange(response);
     });
   }, []);
 
@@ -30,6 +31,10 @@ function App() {
       blogService.setToken(user.token);
     }
   }, []);
+
+  const handleLikesChange = newBlogs => {
+    setBlogs(newBlogs);
+  };
 
   const handleLogin = async event => {
     event.preventDefault();
@@ -116,7 +121,13 @@ function App() {
     <div>
       <br />
       {blogs.map(blog => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          blogService={blogService}
+          blogs={blogs}
+          setBlogs={setBlogs}
+        />
       ))}
     </div>
   );

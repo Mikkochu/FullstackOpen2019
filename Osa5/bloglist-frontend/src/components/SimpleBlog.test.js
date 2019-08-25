@@ -1,21 +1,35 @@
 import React from "react";
 import "@testing-library/jest-dom/extend-expect";
-import { render, cleanup } from "@testing-library/react";
+import { render, cleanup, fireEvent } from "@testing-library/react";
 import SimpleBlog from "./SimpleBlog";
 
-afterEach(cleanup);
+describe("SimpleBlog tests", () => {
+  afterEach(cleanup);
+  let component;
+  let mockHandler;
 
-test("renders title,author and likes", () => {
-  const testBlog = {
-    title: "testiOtsikko",
-    author: "testiKirjailija",
-    likes: 10
-  };
+  beforeEach(() => {
+    mockHandler = jest.fn();
 
-  const component = render(<SimpleBlog blog={testBlog} />);
-  //component.debug();
+    const testBlog = {
+      title: "testiOtsikko",
+      author: "testiKirjailija",
+      likes: 10
+    };
+    component = render(<SimpleBlog blog={testBlog} onClick={mockHandler} />);
+  });
 
-  expect(component.container).toHaveTextContent("testiOtsikko");
-  expect(component.container).toHaveTextContent("testiKirjailija");
-  expect(component.container).toHaveTextContent("blog has 10 likes");
+  test("TEST_1: renders title,author and likes", () => {
+    expect(component.container).toHaveTextContent("testiOtsikko");
+    expect(component.container).toHaveTextContent("testiKirjailija");
+    expect(component.container).toHaveTextContent("blog has 10 likes");
+  });
+
+  test("TEST_2: clicking the SimpleBlog-button twice calls event handler twice", async () => {
+    const button = component.getByText("like");
+    fireEvent.click(button);
+    fireEvent.click(button);
+
+    expect(mockHandler.mock.calls.length).toBe(2);
+  });
 });

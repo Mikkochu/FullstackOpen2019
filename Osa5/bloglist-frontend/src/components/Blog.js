@@ -6,10 +6,6 @@ const Blog = ({ blog, blogService, blogs, reorderBlogs, user }) => {
 
   const fullBlogInfo = { display: fullBlog ? "" : "none" };
 
-  const toggleFullBlogInfo = () => {
-    setFullBlog(!fullBlog);
-  };
-
   const handleLike = () => {
     blog.likes++;
     blogService.update(blog.id, blog);
@@ -17,6 +13,10 @@ const Blog = ({ blog, blogService, blogs, reorderBlogs, user }) => {
     reorderBlogs(
       blogs.map(oldBlog => (oldBlog.id === blog.id ? blog : oldBlog))
     );
+  };
+
+  const toggleFullBlogInfo = () => {
+    setFullBlog(!fullBlog);
   };
 
   const handleRemoveClick = () => {
@@ -65,7 +65,7 @@ Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   blogService: PropTypes.object.isRequired,
   blogs: PropTypes.array.isRequired,
-  setNewBlogs: PropTypes.func.isRequired,
+  reorderBlogs: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 };
 export default Blog;

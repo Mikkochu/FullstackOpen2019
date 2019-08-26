@@ -43,10 +43,10 @@ const Blog = ({ blog, blogService, blogs, setNewBlogs, user }) => {
 
   return (
     <div style={blogStyle}>
-      <div onClick={() => toggleFullBlogInfo()}>
+      <div onClick={() => toggleFullBlogInfo()} className="titleAuthor">
         {blog.title} {blog.author}
       </div>
-      <div style={fullBlogInfo}>
+      <div style={fullBlogInfo} className="fullInfo">
         <p>{blog.url}</p>
         <p>
           {blog.likes} likes <button onClick={() => handleLike()}>like</button>

@@ -14,6 +14,7 @@ describe("SimpleBlog tests", () => {
     const testBlog = {
       title: "testiOtsikko",
       author: "testiKirjailija",
+      url: "www.blog.fi",
       likes: 10
     };
     component = render(<SimpleBlog blog={testBlog} onClick={mockHandler} />);

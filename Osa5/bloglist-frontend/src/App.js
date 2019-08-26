@@ -125,7 +125,7 @@ function App() {
           blog={blog}
           blogService={blogService}
           blogs={blogs}
-          setNewBlogs={handleLikesChange}
+          reorderBlogs={handleLikesChange}
           user={user}
         />
       ))}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const Blog = ({ blog, blogService, blogs, setNewBlogs, user }) => {
+const Blog = ({ blog, blogService, blogs, reorderBlogs, user }) => {
   const [fullBlog, setFullBlog] = useState(false);
 
   const fullBlogInfo = { display: fullBlog ? "" : "none" };
@@ -14,7 +14,7 @@ const Blog = ({ blog, blogService, blogs, setNewBlogs, user }) => {
     blog.likes++;
     blogService.update(blog.id, blog);
 
-    setNewBlogs(
+    reorderBlogs(
       blogs.map(oldBlog => (oldBlog.id === blog.id ? blog : oldBlog))
     );
   };
@@ -22,7 +22,7 @@ const Blog = ({ blog, blogService, blogs, setNewBlogs, user }) => {
   const handleRemoveClick = () => {
     if (window.confirm(`remove blog ${blog.title} by ${blog.author}?`)) {
       blogService.remove(blog.id);
-      setNewBlogs(blogs.filter(x => x.id !== blog.id));
+      reorderBlogs(blogs.filter(x => x.id !== blog.id));
     }
   };
 

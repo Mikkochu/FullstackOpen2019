@@ -38,21 +38,13 @@ describe("Blog tests", () => {
 
     expect(titleAuthor).toHaveTextContent("testiOtsikko testiKirjailija");
 
-    expect(titleAuthor).toHaveStyle("display: ");
+    expect(titleAuthor).toHaveStyle("display: block ");
     expect(fullInfo).toHaveStyle("display: none");
   });
 
   test("clicking a blog opens a full view", () => {
-    /*let blogButton = component.getByText(
-      testBlog.title + " " + testBlog.author
-    );
-    */
-
     const titleAuthor = component.container.querySelector(".titleAuthor");
     const fullInfo = component.container.querySelector(".fullInfo");
-
-    expect(titleAuthor).toHaveStyle("display: ");
-    expect(fullInfo).toHaveStyle("display: none");
 
     fireEvent.click(titleAuthor);
     //expect(mockHandler.mock.calls.length).toBe(1);
@@ -61,7 +53,7 @@ describe("Blog tests", () => {
     expect(fullInfo).toHaveTextContent("www.blogi.fi");
     expect(fullInfo).toHaveTextContent("10 likes");
 
-    expect(titleAuthor).toHaveStyle("display: ");
-    expect(fullInfo).toHaveStyle("display: ");
+    expect(titleAuthor).toHaveStyle("display: block ");
+    expect(fullInfo).toHaveStyle("display: block");
   });
 });

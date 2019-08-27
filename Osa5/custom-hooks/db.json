@@ -7,6 +7,14 @@
     {
       "content": "best feature ever <3",
       "id": 2
+    },
+    {
+      "content": "mikko",
+      "id": 3
+    },
+    {
+      "content": "mikko",
+      "id": 4
     }
   ],
   "persons": [
@@ -14,6 +22,11 @@
       "name": "mluukkai",
       "number": "040-5483923",
       "id": 1
+    },
+    {
+      "name": "mikko",
+      "number": "55555555555",
+      "id": 2
     }
   ]
 }

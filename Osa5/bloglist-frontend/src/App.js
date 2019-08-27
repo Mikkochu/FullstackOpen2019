@@ -5,10 +5,11 @@ import loginService from "./services/login";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import LoginForm from "./components/LoginForm";
+import { useField } from "./hooks";
 
 function App() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  //const [username, setUsername] = useState("");
+  //const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const [blogs, setBlogs] = useState([]);
   const [title, setTitle] = useState("");
@@ -16,6 +17,8 @@ function App() {
   const [url, setUrl] = useState("");
   const [notification, setNotification] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const username = useField("text");
+  const password = useField("password");
 
   useEffect(() => {
     blogService.getAll().then(response => {
@@ -40,8 +43,8 @@ function App() {
     event.preventDefault();
     try {
       const user = await loginService.login({
-        username,
-        password
+        username: username.value,
+        password: password.value
       });
       //console.log("user", user);
 
@@ -50,8 +53,8 @@ function App() {
 
       blogService.setToken(user.token);
       setUser(user);
-      setUsername("");
-      setPassword("");
+      //setUsername("");
+      //setPassword("");
     } catch (exception) {
       setErrorMessage("wrong username or password");
       setTimeout(() => {
@@ -155,8 +158,6 @@ function App() {
         <LoginForm
           username={username}
           password={password}
-          setUsername={setUsername}
-          setPassword={setPassword}
           handleLogin={handleLogin}
         />
       </div>

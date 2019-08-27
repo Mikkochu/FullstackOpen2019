@@ -53,10 +53,11 @@ function App() {
 
       blogService.setToken(user.token);
       setUser(user);
-      //setUsername("");
-      //setPassword("");
+      username.reset();
+      password.reset();
     } catch (exception) {
       setErrorMessage("wrong username or password");
+      password.reset();
       setTimeout(() => {
         setErrorMessage(null);
       }, 5000);

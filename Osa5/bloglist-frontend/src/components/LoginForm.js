@@ -5,10 +5,10 @@ const LoginForm = ({ username, password, handleLogin }) => {
     <div>
       <form onSubmit={handleLogin}>
         <div>
-          username: <input {...username} />
+          username: <input {...username} reset={null} />
         </div>
         <div>
-          password: <input {...password} />
+          password: <input {...password} reset={null} />
         </div>
         <div>
           <button type="submit">login</button>

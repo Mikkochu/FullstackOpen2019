@@ -72,7 +72,6 @@ function App() {
 
   const handleCreate = async event => {
     event.preventDefault();
-    //console.log("painettu");
 
     const newBlog = {
       title,

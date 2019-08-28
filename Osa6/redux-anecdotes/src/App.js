@@ -2,10 +2,11 @@ import React from "react";
 import NewAnecdote from "./components/NewAnecdote";
 
 const App = props => {
-  const anecdotes = props.store.getState();
+  const anecdotes = props.store
+    .getState()
+    .sort((previous, current) => current.votes - previous.votes);
 
   const vote = id => {
-    //console.log("vote", id);
     props.store.dispatch(createVoteAction(id));
   };
 

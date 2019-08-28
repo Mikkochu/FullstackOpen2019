@@ -41,7 +41,6 @@ const reducer = (state = initialState, action) => {
         anecdote.id !== id ? anecdote : changedAnecdote
       );
     case "NEW_ANECDOTE":
-      //console.log("action", action.data);
       return state.concat(action.data);
     default:
       return state;

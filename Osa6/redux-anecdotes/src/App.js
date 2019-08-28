@@ -1,5 +1,5 @@
 import React from "react";
-import NewAnecdote from "./components/NewAnecdote";
+import AnecdoteForm from "./components/AnecdoteForm";
 import { createVoteAction } from "./reducers/anecdoteReducer";
 
 const App = props => {
@@ -23,7 +23,7 @@ const App = props => {
           </div>
         </div>
       ))}
-      <NewAnecdote store={props.store} />
+      <AnecdoteForm store={props.store} />
     </div>
   );
 };

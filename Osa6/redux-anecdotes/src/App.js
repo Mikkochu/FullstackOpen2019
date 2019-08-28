@@ -1,5 +1,6 @@
 import React from "react";
 import NewAnecdote from "./components/NewAnecdote";
+import { createVoteAction } from "./reducers/anecdoteReducer";
 
 const App = props => {
   const anecdotes = props.store
@@ -8,18 +9,6 @@ const App = props => {
 
   const vote = id => {
     props.store.dispatch(createVoteAction(id));
-  };
-
-  const createVoteAction = id => {
-    const anecdoteWithAction = {
-      type: "VOTE",
-      data: { id }
-    };
-    return anecdoteWithAction;
-  };
-
-  const createAnecdote = () => {
-    console.log("cliked");
   };
 
   return (
